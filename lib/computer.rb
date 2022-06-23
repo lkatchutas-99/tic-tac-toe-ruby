@@ -17,7 +17,7 @@ class ComputerPlayer < Player
 
   private
 
-  # computer countdown (added this feature for fun)
+  # computer countdown (added this feature to let the use glimps at the results)
   def count_down
     count_down = 3
     print "This super fast hyper sonic intellligent computer (#{@symbol}) will chose in: "
