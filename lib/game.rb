@@ -70,9 +70,11 @@ class Game
     @positions = @positions.map.with_index { |_, idx| idx + 1 }
     @round += 1
     loop do
-      return if prompt_player(@x_player, 'x')
+      prompt_player(@x_player, 'x')
+      return if @x_player.winner?(@positions)
       break if @positions.all? { |square| square.is_a? String }
-      return if prompt_player(@o_player, 'o')
+      prompt_player(@o_player, 'o')
+      return if @y_player.winner?(@positions)
     end
     puts 'Draw'
   end
@@ -83,6 +85,5 @@ class Game
     empty_squares = @positions.select { |square| square.is_a? Integer }
     puts "This is round #{@round}"
     @positions[player.choose_square(empty_squares)] = symbol
-    player.winner?(@positions)
   end
 end
