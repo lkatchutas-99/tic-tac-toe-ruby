@@ -8,61 +8,88 @@ describe Player do
     context 'When player did not win' do
       subject(:player_not_winning) { described_class.new('x', 'luka', 'human') }
       context 'When rows have no symbols' do
-      
-        it '#winner? with top row returns false' do
-          row = [1, 2, 3]
-          expect(player_not_winning.winner?(row)).to be false
-        end
-
-        it '#winner? with middle row returns false' do
-          row = [4, 5, 6]
-          expect(player_not_winning.winner?(row)).to be false
-        end
-
-        it '#winner? with bottom row returns false' do
-          row = [7, 8, 9]
-          expect(player_not_winning.winner?(row)).to be false
-        end
-        it '#winner? with left column returns false' do
-          column = [1, 4, 7]
-          expect(player_not_winning.winner?(column)).to be false
-        end
-        it '#winner? with middle column returns false' do
-          column = [2, 5, 8]
-          expect(player_not_winning.winner?(column)).to be false
-        end
-        
-        it '#winner? with right column returns false' do
-          column = [3, 6, 9]
-          expect(player_not_winning.winner?(column)).to be false
-        end
-
-        it '#winner? with diagonal facing downward returns false' do
-          diagonal = [1, 5, 9]
-          expect(player_not_winning.winner?(diagonal)).to be false
-        end
-
-        it '#winner? with diagonal facing upward returns false' do
-          diagonal = [7, 5, 3]
-          expect(player_not_winning.winner?(diagonal)).to be false
-        end
-        
         it '#winner? with full board empty' do
           board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        expect(player_not_winning.winner?(board)).to be false
-
+          expect(player_not_winning.winner?(board)).to be false
         end
       end
 
-      context 'when first row has some symbols' do
+      context 'when board has some symbols' do
         it '#winner? with one symbol returns false' do
-          row = ['x', 5, 9]
-          expect(player_not_winning.winner?(row)).to be false
+          board = ['x', 2, 3, 4, 5, 6, 7, 8, 9]
+          expect(player_not_winning.winner?(board)).to be false
         end
 
-        it '#winner? alternating symbols returns false' do
-          row = ['x', 'o', 'x']
-          expect(player_not_winning.winner?(row)).to be false
+        it '#winner? with alternating symbols returns false' do
+          board = ['x', 'o', 'x', 'x', 'o', 6, 7, 8, 9]
+          expect(player_not_winning.winner?(board)).to be false
+        end
+
+        it '#winner? with symbol on different row' do
+          board = [1, 'x', 'x', 'x', 5, 6, 7, 8, 9]
+          expect(player_not_winning.winner?(board)).to be false
+        end
+
+        it '#winner? opposing symbol is false' do
+          board = ['o', 'o', 'o', 4, 5, 6, 7, 8, 9]
+          expect(player_not_winning.winner?(board)).to be false
+        end
+      end
+    end
+
+    context 'when player wins' do
+      subject(:winning_player) { described_class.new('x', 'luka', 'human') }
+      context 'When top row has all three symbols' do
+        it '#winner? returns true' do
+          board = ['x', 'x', 'x', 4, 5, 6, 7, 8, 9]
+          expect(winning_player.winner?(board)).to be true
+        end
+      end
+
+      context "When middle row has all three symbols" do
+        it '#winner? returns true' do
+          board = [1, 2, 3, 'x', 'x', 'x', 7, 8, 9]
+          expect(winning_player.winner?(board)).to be true
+        end
+      end
+
+      context "When bottom row has all three symbols" do
+        it '#winner? returns true' do
+          board = [1, 2, 3, 4, 5, 6, 'x', 'x', 'x']
+          expect(winning_player.winner?(board)).to be true
+        end
+      end
+
+      context 'When left column has all three symbols' do
+        it '#winner? returns true' do
+          board = ['x', 2, 3, 'x', 5, 6, 'x', 8, 9]
+          expect(winning_player.winner?(board)).to be true
+        end
+      end
+      context 'When middle column has all three symbols' do
+        it '#winner? returns true' do
+          board = [1, 'x', 3, 4, 'x', 6, 7, 'x', 9]
+          expect(winning_player.winner?(board)).to be true
+        end
+      end
+      
+      context 'When right column has all three symbols' do
+        it '#winner? returns true' do
+          board = [1, 2, 'x', 4, 5, 'x', 7, 8, 'x']
+          expect(winning_player.winner?(board)).to be true
+        end
+      end
+      
+      context 'When diagonal (downwards) has all three symbols' do
+        it '#winner? returns true' do
+          board = ['x', 2, 3, 4, 'x', 6, 7, 8, 'x']
+          expect(winning_player.winner?(board)).to be true
+        end
+      end
+      context 'When diagonal (upwards) has all three symbols' do
+        it '#winner? returns true' do
+          board = [1, 2, 'x', 4, 'x', 6, 'x', 8, 9]
+          expect(winning_player.winner?(board)).to be true
         end
       end
     end
