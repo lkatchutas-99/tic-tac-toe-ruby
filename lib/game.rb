@@ -74,7 +74,7 @@ class Game
       return if @x_player.winner?(@positions)
       break if @positions.all? { |square| square.is_a? String }
       prompt_player(@o_player, 'o')
-      return if @y_player.winner?(@positions)
+      return if @o_player.winner?(@positions)
     end
     puts 'Draw'
   end
